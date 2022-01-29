@@ -1,24 +1,35 @@
 alert("Welcome to Robot Gladiators!");
 
+var fightOrSkip = function(){
+  var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.")
+
+  if (promptFight === "" || promptFight === null) {
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip();
+  }
+
+  promptFight = promptFight.toLowerCase();
+  
+  if (promptFight === "skip"){
+    var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+    if (confirmSkip){
+      window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+      playerInfo.money = Math.max(0, playerInfo.money - 10);
+
+      return true;
+    }
+  }
+  return false;
+}
+
 
   var fight = function(enemy){
 
     while(playerInfo.health > 0 && enemy.health > 0){
-      var promptFight = window.prompt("Would you like to FIGHT or SKIP this this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-      
-      if (promptFight === "skip" || promptFight === "SKIP"){
-        
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-        if (confirmSkip) {
-          window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-
-          playerInfo.money = Math.max(0, playerInfo.name - 10);
-
-          console.log("playerMoney" + playerInfo.money);
-          break;
-        } 
+      if (fightOrSkip()){
+        // if true, leave fight by breaking loop
+        break;
       }
       
       var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -63,6 +74,8 @@ var startGame = function(){
       var pickedEnemyObj = enemyInfo[i];
       pickedEnemyObj.health = randomNumber(40,60);
       fight(pickedEnemyObj);
+
+      // AFTER FIGHT CALL RIGHT ABOUT, WE GO TO THE FIGHT FUNCTION WITH THE ENEMY INFO IN PICKEDENEMYOBJ AND WE GO TO THE WHILE LOOP, ONCE WE BREAK OUT OF THE LOOP WITH A CONFIRMED SKIP, THE STARTGAME FUNCTION WILL INITIATE AGAIN WHERE WE LAST LEFT OFF, WHICH IS RIGHT HERE, SO THE STORE CONFIRMATION WILL COME NEXT INSTEAD OF THE STARTGAME FUNCTION FROM SCRATCH.
 
         //if we're not at the last enemy in the array
         if (playerInfo.health > 0 && i < enemyInfo.length - 1){
