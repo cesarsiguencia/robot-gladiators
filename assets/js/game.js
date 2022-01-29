@@ -5,7 +5,7 @@ var playerAttack = 20;
 var playerMoney = 10;
 
 var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
-var enemyHealth = 50;
+var enemyHealth = 50
 var enemyAttack = 10;
 
 
@@ -24,13 +24,15 @@ var enemyAttack = 10;
         if (confirmSkip) {
           window.alert(playerName + " has decided to skip this fight. Goodbye!");
 
-          playerMoney = playerMoney - 10;
+          playerMoney = Math.max(0, playerName - 10);
 
           console.log("playerMoney" + playerMoney);
           break;
         } 
       }
-      enemyHealth = enemyHealth - playerAttack;
+      
+      var damage = randomNumber(playerAttack - 3, playerAttack);
+      enemyHealth = Math.max(0, enemyHealth - damage);
 
       console.log(playerName + " has attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.")
         
@@ -43,7 +45,8 @@ var enemyAttack = 10;
         window.alert(enemyName + " still has " + enemyHealth + " health left.");
       }
 
-      playerHealth = playerHealth - enemyAttack;
+      var damage = randomNumber(enemyAttack - 3, enemyAttack)
+      playerHealth = Math.max(0, playerHealth - damage);
 
       console.log(enemyName + " has attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.")
   
@@ -61,7 +64,6 @@ var enemyAttack = 10;
 var startGame = function(){
   playerHealth = 100;
   playerAttack = 10;
-  playerMoney = 10;
 
   for (var i = 0; i < enemyNames.length; i++){
 
@@ -69,7 +71,7 @@ var startGame = function(){
       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
 
       var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40,60);
       fight(pickedEnemyName);
 
         //if we're not at the last enemy in the array
@@ -159,3 +161,9 @@ var shop = function(){
   }
 }
 startGame();
+
+var randomNumber = function(min, max){
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+  return value;
+}
