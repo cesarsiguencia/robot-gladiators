@@ -119,6 +119,7 @@ var startGame = function(){
       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
 
       var pickedEnemyObj = enemyInfo[i];
+      console.log(pickedEnemyObj)
       pickedEnemyObj.health = randomNumber(40,60);
       fight(pickedEnemyObj);
 
